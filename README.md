@@ -34,7 +34,7 @@ docker-compose up -d --build --remove-orphans
 ```
 The Jenkins seed job is already bundled into the JenkinsDsl repository, thus Jenkins will startup having a lookup on the `config` subdirectory of this repository. The seed job called "bootstrap" can be scheduled or executed ad-hoc and will generate jobs and views. 
 
-## JenkinsCI
+## Pipelines
 
 ### Configuration
 Add the SSH key from src/root/.ssh/id_rsa.pub to your git project's or repsitory's access keys.
