@@ -1,0 +1,92 @@
+version: '3.2'
+
+services:
+
+  openvpn:
+    build: openvpn/.
+    network_mode: "host"
+    privileged: true
+    volumes:
+      - ${ROOT}/openvpn:/etc/openvpn
+    env_file: .env
+    environment:
+      - CLIENTS=max hans peter
+      - SERVICE_URL=openvpn.vcap.me
+    restart: always
+
+  sni-router:
+    build: sni-router/.
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    environment:
+      - ROUTER_HTTP_PORT=80
+      - ROUTER_HTTP_SERVICES_PORT=8080
+      - ROUTER_TCP_SERVICES_PORT=8443
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "8443:8443"
+      - "1111:1111"
+    networks:
+      - default
+      - routing
+    restart: always
+
+  portainer:
+    image: portainer/portainer
+    depends_on: 
+      - sni-router
+    env_file: .env
+    environment:
+      - VIRTUAL_HOST=portainer.${DOMAIN}
+      - VIRTUAL_HTTP_PORT=9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --no-auth -H unix:///var/run/docker.sock
+    restart: always
+
+  jenkins:
+    build: jenkins-dsl/.
+    depends_on: 
+      - sni-router
+    privileged: true
+    env_file: .env
+    environment:
+      - VIRTUAL_HOST=jenkins.${DOMAIN}
+      - VIRTUAL_HTTP_PORT=8080
+      - JAVA_OPTS=-Duser.timezone=Europe/Zurich
+      - JENKINS_OPTS=''
+      - JENKINS_EXECUTORS=7
+      - JENKINS_BUILDSDIR=$${JENKINS_HOME}/builds/$${ITEM_FULL_NAME}
+      - JENKINS_BOOTSTRAP_REPOSITORY=ssh://git@github.com:flavioaiello/continuous.git
+      - JENKINS_BOOTSTRAP_REPOSITORY_BRANCH=develop
+      - JENKINS_BASIC_CREDENTIALS=docker:admin:safSFDSgRJSFAJLO3534ADdsa
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${ROOT}/jenkins/workspace:/var/jenkins_home/workspace
+      - ${ROOT}/jenkins/builds:/var/jenkins_home/builds
+    restart: always
+
+  nexus:
+    build: nexus3/.
+    depends_on: 
+      - sni-router
+    env_file: .env
+    environment:
+      - VIRTUAL_HOST=nexus.${DOMAIN}
+      - VIRTUAL_HTTP_PORT=8081
+      - DOCKER_REPOSITORIES=default:5000
+      - NEXUS_DEFAULT_PASSWORD=admin123
+      - NEXUS_PASSWORD=safSFDSgRJSFAJLO3534ADdsa
+    ports:
+      - "5000:5000"
+    volumes:
+      - ${ROOT}/nexus:/nexus-data
+    restart: always
+
+networks:
+  default:
+    driver: overlay
+  routing:
+    driver: overlay
+    attachable: true
