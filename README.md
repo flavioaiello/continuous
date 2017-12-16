@@ -36,7 +36,7 @@ The Jenkins seed job is already bundled into the JenkinsDsl repository, thus Jen
 
 ## Pipelines
 
-### Configuration
+#### Configuration
 Add the SSH key from src/root/.ssh/id_rsa.pub to your git project's or repsitory's access keys.
 Please define your pipeline or multibranch pipeline jobs directly into `config/jobs.groovy`. If you wish to organize your jobs you can configure views directly in `config/views.groovy`. Use a `Jenkinsfile` on each software repository you wish to build. This setup is built in on jenkins using the plugins as described below.
 
