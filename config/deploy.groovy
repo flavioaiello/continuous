@@ -2,11 +2,10 @@
 
 def repository = 'ssh://git@github.com:flavioaiello/continuous.git'
 
-// Software A - Component A
-dslJob('projects/software-a/deploy/component-a/master', true, repository, 'master', 'default.deploy')
-dslJob('projects/software-a/deploy/component-a/latest', true, repository, 'master', 'default.deploy')
-dslJob('projects/software-a/deploy/component-a/testing', true, repository, 'master', 'default.deploy')
-dslJob('projects/software-a/deploy/component-a/production', true, repository, 'master', 'default.deploy')
+// Project and Component A
+dslJob('projects/software-a/deploy/component-a/latest', true, repository, 'master', 'Jenkinsfile')
+dslJob('projects/software-a/deploy/component-a/testing', true, repository, 'master', 'Jenkinsfile')
+dslJob('projects/software-a/deploy/component-a/production', true, repository, 'master', 'Jenkinsfile')
 
 
 // *** Base functions below ***
