@@ -23,6 +23,10 @@ It's very easy to quickly get started:
   - nexus.DOCKER_REPOSITORY_NAME: change, and be sure to use this name in your Jenkinsfiles
   - nexus.NEXUS_PASSWORD: change
 
+Updating submodules is very simple:
+```
+git submodule update --recursive --remote
+```
 Head over to your server and execute the required steps to get started:
 ```
 cd continuous
@@ -30,11 +34,11 @@ docker-compose up -d --build --remove-orphans
 ```
 The Jenkins seed job is already bundled into the JenkinsDsl repository, thus Jenkins will startup having a lookup on the `config` subdirectory of this repository. The seed job called "bootstrap" can be scheduled or executed ad-hoc and will generate jobs and views. 
 
-## JenkinsCI
+## Pipelines
 
-### Configuration
+#### Configuration
 Add the SSH key from src/root/.ssh/id_rsa.pub to your git project's or repsitory's access keys.
-Please define your pipeline or multibranch pipeline jobs directly into `config/jobs.groovy`. If you wish to organize your jobs you can configure views directly in `config/views.groovy`. Use a `Jenkinsfile` on each software repository you wish to build. This setup is built in on jenkins using the plugins as described below.
+Please define your pipeline or multibranch pipeline jobs directly into `config/build.groovy` eg. `config/deploy.groovy`. If you wish to organize your jobs you can configure views directly in `config/views.groovy`. Use a `Jenkinsfile` on each software repository you wish to build. This setup is built in on jenkins using the plugins as described below.
 
 #### JenkinsCI [Job DSL Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Job+DSL+Plugin)
 Please refer to the [official tutorial](https://github.com/jenkinsci/job-dsl-plugin/wiki), [apidoc](https://jenkinsci.github.io/job-dsl-plugin/) and the [Job DSL Playground](http://job-dsl.herokuapp.com/). Not all of the 1000+ Jenkins plugins are supported by the built-in DSL. If the API Viewer does not list support for a certain plugin, the Automatically Generated DSL can be used to fill the gap.
