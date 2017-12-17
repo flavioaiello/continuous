@@ -3,7 +3,7 @@ version: '3.2'
 services:
 
   openvpn:
-    build: openvpn/.
+    image: flavioaiello/openvpn:latest
     network_mode: "host"
     privileged: true
     volumes:
@@ -15,7 +15,7 @@ services:
     restart: always
 
   sni-router:
-    build: sni-router/.
+    image: flavioaiello/sni-router:latest
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     environment:
@@ -33,7 +33,7 @@ services:
     restart: always
 
   portainer:
-    image: portainer/portainer
+    image: portainer/portainer:latest
     depends_on: 
       - sni-router
     env_file: .env
@@ -46,7 +46,7 @@ services:
     restart: always
 
   jenkins:
-    build: jenkins-dsl/.
+    image: flavioaiello/jenkins-dsl:latest
     depends_on: 
       - sni-router
     privileged: true
@@ -68,7 +68,7 @@ services:
     restart: always
 
   nexus:
-    build: nexus3/.
+    image: flavioaiello/nexus3:latest
     depends_on: 
       - sni-router
     env_file: .env
