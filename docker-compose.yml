@@ -47,9 +47,6 @@ services:
 
   portainer-templates:
     image: flavioaiello/portainer-templates:latest
-    environment:
-      - VIRTUAL_HOST=portainer-templates.${DOMAIN}
-      - VIRTUAL_HTTP_PORT=8080
     depends_on:
       - sni-router
     restart: always
