@@ -45,8 +45,8 @@ services:
     command: --no-auth -H unix:///var/run/docker.sock
     restart: always
 
-  portainer-templates:
-    image: flavioaiello/portainer-templates:latest
+  portainer-customizer:
+    image: flavioaiello/portainer-customizer:latest
     depends_on:
       - sni-router
     restart: always
