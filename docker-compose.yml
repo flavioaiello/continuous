@@ -45,6 +45,12 @@ services:
     command: --no-auth -H unix:///var/run/docker.sock
     restart: always
 
+  portainer-templates:
+    image: flavioaiello/portainer-templates:latest
+    depends_on:
+      - sni-router
+    restart: always
+
   jenkins:
     image: flavioaiello/jenkins-dsl:latest
     depends_on: 
