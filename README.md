@@ -23,10 +23,6 @@ It's very easy to quickly get started:
   - nexus.DOCKER_REPOSITORY_NAME: change, and be sure to use this name in your Jenkinsfiles
   - nexus.NEXUS_PASSWORD: change
 
-Updating submodules is very simple:
-```
-git submodule update --recursive --remote
-```
 Head over to your server and execute the required steps to get started:
 ```
 cd continuous
