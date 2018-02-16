@@ -1,6 +1,6 @@
 # Toolstack for build and deploy automation 
 
-This is the starting point to ramp up your software automation. The `docker-compose.yml` recipe builds all git submodules contained in this repository.
+This is the starting point to ramp up your software automation.
 
 ## Tooling
 - [JenkinsCI](http://jenkins.vcap.me) DSL based on fully declarative jobs with pipelines and builtin bootstrap
