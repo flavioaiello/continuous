@@ -77,10 +77,6 @@ services:
     depends_on: 
       - swarm-router
     env_file: .env
-    environment:
-      - DOCKER_REPOSITORIES=default:5000
-      - NEXUS_DEFAULT_PASSWORD=admin123
-      - NEXUS_PASSWORD=safSFDSgRJSFAJLO3534ADdsa
     ports:
       - "5000:5000"
     volumes:
