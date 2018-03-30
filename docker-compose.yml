@@ -14,26 +14,25 @@ services:
       - SERVICE_URL=openvpn.vcap.me
     restart: always
 
-  sni-proxy:
-    image: flavioaiello/sni-proxy:latest
+  swarm-router:
+    image: flavioaiello/swarm-router:latest
     environment:
-      - LISTENERS=http;8080 tls;8443
-      - RULES_HTTP=nexus.*;*:8081 portainer.*;*:9000 .*;*:8080
-      - RULES_TLS=.*;*:8443
+      - HTTP_PORTS=80
+      - TLS_PORTS=443
+      - HTTP_BACKENDS_PORT=portainer:9000 nexus:8081
     ports:
-      - "80:8080"
-      - "8080:8080"
-      - "443:8443"
-      - "8443:8443"
+      - "80:80"
+      - "443:443"
+      - "1111:1111"
     networks:
-      - default
-      - routing
+      default:
+      routing:
     restart: always
 
   portainer:
     image: portainer/portainer:latest
     depends_on: 
-      - sni-proxy
+      - swarm-router
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --no-auth -H unix:///var/run/docker.sock
@@ -46,13 +45,13 @@ services:
   portainer-customizer:
     image: flavioaiello/portainer-customizer:latest
     depends_on:
-      - sni-proxy
+      - swarm-router
     restart: always
 
   jenkins:
     image: flavioaiello/jenkins-dsl:latest
     depends_on: 
-      - sni-proxy
+      - swarm-router
     privileged: true
     env_file: .env
     environment:
@@ -76,7 +75,7 @@ services:
   nexus:
     image: flavioaiello/nexus3:latest
     depends_on: 
-      - sni-proxy
+      - swarm-router
     env_file: .env
     environment:
       - DOCKER_REPOSITORIES=default:5000
