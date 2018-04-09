@@ -11,7 +11,7 @@ services:
     env_file: .env
     environment:
       - CLIENTS=max hans peter
-      - SERVICE_URL=openvpn.vcap.me
+      - SERVICE_URL=openvpn.localtest.me
     restart: always
 
   swarm-router:
