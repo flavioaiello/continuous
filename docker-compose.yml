@@ -42,12 +42,6 @@ services:
           - portainer.${DOMAIN}
     restart: always
 
-  portainer-customizer:
-    image: flavioaiello/portainer-customizer:latest
-    depends_on:
-      - swarm-router
-    restart: always
-
   jenkins:
     image: flavioaiello/jenkins-dsl:latest
     depends_on: 
